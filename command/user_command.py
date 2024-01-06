@@ -2,7 +2,7 @@
 # @Time     :2024/1/6 20:28
 # @Author   :xiaolong wang
 # @File     :user_command.py
-command_list = {'list','add','delete','edit','exit'}
+command_list = {'list','add','delete','edit','exit','avg'}
 def get_user_command()->str:
     while True:
         command = input(f"请输入指令(输入'exit'退出):")

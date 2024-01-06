@@ -16,7 +16,7 @@ def load_data():
         for line in csv_reader:
             name = line.get("name")
             dict_data[name] = line
-    print(dict_data)
+
     return dict_data
 
 def save_data(dictdata:dict):

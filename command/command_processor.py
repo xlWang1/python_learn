@@ -2,6 +2,8 @@
 # @Time     :2024/1/6 20:42
 # @Author   :xiaolong wang
 # @File     :command_processor.py
+edit_list = {"name",'math','chinese','english'}
+scoretype_list = {'math','chinese','english'}
 def process_list(studentdata):
     records = list(studentdata.values())
     records.sort(key=lambda a:a.get("name"))
@@ -24,20 +26,22 @@ def process_add(studentdata):
                     "english":english_score
                 }
     studentdata["name"] = record
-    print(studentdata)
     print(f"添加学生{studen_name}成绩完成")
 
 
 def process_delete(studentdata:dict):
     delete_student = input(f"请输入要删除的学生的姓名:")
-    if delete_student in studentdata:
+    flag = student_exist(delete_student,studentdata)
+    if flag == True:
         studentdata.pop(delete_student)
-        print(f"删除{delete_student}的成绩完成")
+        print(f"删除{delete_student}完成")
+
 def process_edit(studentdata:dict):
-    edit_list = {"name",'math','chinese','english'}
+
     while True:
         edit_student = input(f"请选择你要进行修改的学生的姓名：")
-        if edit_student in studentdata.keys():
+        flag = student_exist(edit_student,studentdata)
+        if flag == True:
             edit_type = input(f"请输入你要更改的类型:")
             if edit_type in edit_list:
                 temp = studentdata[edit_student]
@@ -49,8 +53,25 @@ def process_edit(studentdata:dict):
                 break
             else:
                 print(f"请选择指定类型")
-        else:
-            print(f"查无此人")
+
+
+def process_avg(studentdata):
+
+    student = input(f"请输入查询的学生姓名：")
+    flag = student_exist(student,studentdata)
+    if flag == True:
+        studentinfo = studentdata[student]
+        math = studentinfo["math"]
+        chinese = studentinfo["chinese"]
+        english = studentinfo["english"]
+        print((float(math)+float(chinese)+float(english))/3)
+
+def student_exist(name:str,studentdata:dict)->bool:
+    if name in studentdata.keys():
+        return True
+    else:
+        print( "查无此人")
+
 def process_command(cmd,studentdata):
     if cmd == "list":
         process_list(studentdata)
@@ -60,3 +81,5 @@ def process_command(cmd,studentdata):
         process_delete(studentdata)
     elif cmd == "edit":
         process_edit(studentdata)
+    elif cmd == "avg":
+        process_avg(studentdata)
